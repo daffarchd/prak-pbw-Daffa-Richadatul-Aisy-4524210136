@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="220" viewBox="0 0 160 220" role="img" aria-labelledby="title">
+    <title id="title">Default book cover</title>
+    <rect width="160" height="220" rx="8" fill="#f3e8c8"/>
+    <rect x="14" y="12" width="132" height="196" rx="4" fill="#d6a84f"/>
+    <path d="M32 54h96M32 68h76M32 158h96" stroke="#fff8e7" stroke-linecap="round" stroke-width="6"/>
+    <path d="M80 91 91 112l23 3-17 16 4 23-21-11-21 11 4-23-17-16 23-3z" fill="#fff8e7"/>
+</svg>

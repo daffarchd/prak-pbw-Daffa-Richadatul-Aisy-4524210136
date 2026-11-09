@@ -29,11 +29,15 @@ class BookResource extends Resource
                             ->required()
                             ->unique(ignoreRecord: true)
                             ->maxLength(255),
-                        
+
                         Forms\Components\TextInput::make('title')
                             ->required()
                             ->maxLength(255),
-                        
+
+                        Forms\Components\Textarea::make('description')
+                            ->rows(4)
+                            ->columnSpanFull(),
+
                         Forms\Components\Select::make('author_id')
                             ->relationship('author', 'name')
                             ->searchable()
@@ -44,16 +48,22 @@ class BookResource extends Resource
                                     ->required()
                                     ->maxLength(255),
                             ]),
-                        
+
+                        Forms\Components\Select::make('categories')
+                            ->relationship('categories', 'name')
+                            ->multiple()
+                            ->searchable()
+                            ->preload(),
+
                         Forms\Components\TextInput::make('publisher')
                             ->maxLength(255),
-                        
+
                         Forms\Components\TextInput::make('year')
                             ->numeric()
                             ->minValue(1000)
                             ->maxValue(date('Y'))
                             ->step(1),
-                        
+
                         Forms\Components\Select::make('status')
                             ->options([
                                 'available' => 'Available',
@@ -63,7 +73,7 @@ class BookResource extends Resource
                             ->default('available'),
                     ])
                     ->columns(2),
-                
+
                 Forms\Components\Section::make('Cover Image')
                     ->schema([
                         Forms\Components\FileUpload::make('cover')
@@ -84,31 +94,35 @@ class BookResource extends Resource
             ->columns([
                 Tables\Columns\ImageColumn::make('cover')
                     ->circular()
-                    ->defaultImageUrl(url('/images/default-book-cover.png')),
-                
+                    ->defaultImageUrl(url('/images/default-book-cover.svg')),
+
                 Tables\Columns\TextColumn::make('isbn')
                     ->label('ISBN')
                     ->searchable()
                     ->sortable()
                     ->copyable(),
-                
+
                 Tables\Columns\TextColumn::make('title')
                     ->searchable()
                     ->sortable()
                     ->limit(50),
-                
+
                 Tables\Columns\TextColumn::make('author.name')
                     ->searchable()
                     ->sortable(),
-                
+
+                Tables\Columns\TextColumn::make('categories.name')
+                    ->badge()
+                    ->separator(', '),
+
                 Tables\Columns\TextColumn::make('publisher')
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                
+
                 Tables\Columns\TextColumn::make('year')
                     ->sortable()
                     ->alignCenter(),
-                
+
                 Tables\Columns\BadgeColumn::make('status')
                     ->colors([
                         'success' => 'available',
@@ -118,7 +132,7 @@ class BookResource extends Resource
                         'heroicon-o-check-circle' => 'available',
                         'heroicon-o-clock' => 'borrowed',
                     ]),
-                
+
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -130,7 +144,7 @@ class BookResource extends Resource
                         'available' => 'Available',
                         'borrowed' => 'Borrowed',
                     ]),
-                
+
                 Tables\Filters\SelectFilter::make('year')
                     ->options(function () {
                         $currentYear = date('Y');
@@ -138,10 +152,11 @@ class BookResource extends Resource
                         for ($year = $currentYear; $year >= 1950; $year--) {
                             $years[$year] = $year;
                         }
+
                         return $years;
                     })
                     ->searchable(),
-                
+
                 Tables\Filters\SelectFilter::make('author')
                     ->relationship('author', 'name')
                     ->searchable()

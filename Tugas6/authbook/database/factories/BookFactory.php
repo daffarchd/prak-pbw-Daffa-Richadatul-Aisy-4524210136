@@ -12,6 +12,7 @@ class BookFactory extends Factory
         return [
             'isbn' => fake()->unique()->isbn13(),
             'title' => fake()->sentence(3),
+            'description' => fake()->paragraph(),
             'author_id' => Author::factory(),
             'publisher' => fake()->company(),
             'year' => fake()->numberBetween(1950, 2024),
@@ -19,4 +20,3 @@ class BookFactory extends Factory
         ];
     }
 }
-

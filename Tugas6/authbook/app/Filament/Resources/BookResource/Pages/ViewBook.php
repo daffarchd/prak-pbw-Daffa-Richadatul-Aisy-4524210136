@@ -28,33 +28,33 @@ class ViewBook extends ViewRecord
                     ->schema([
                         Infolists\Components\ImageEntry::make('cover')
                             ->height(200)
-                            ->defaultImageUrl(url('/images/default-book-cover.png')),
-                        
+                            ->defaultImageUrl(url('/images/default-book-cover.svg')),
+
                         Infolists\Components\TextEntry::make('isbn')
                             ->label('ISBN')
                             ->copyable(),
-                        
+
                         Infolists\Components\TextEntry::make('title')
                             ->size(Infolists\Components\TextEntry\TextEntrySize::Large)
                             ->weight('bold'),
-                        
+
                         Infolists\Components\TextEntry::make('author.name')
                             ->label('Author'),
-                        
+
                         Infolists\Components\TextEntry::make('publisher'),
-                        
+
                         Infolists\Components\TextEntry::make('year'),
-                        
+
                         Infolists\Components\TextEntry::make('status')
                             ->badge()
                             ->color(fn (string $state): string => match ($state) {
                                 'available' => 'success',
                                 'borrowed' => 'warning',
                             }),
-                        
+
                         Infolists\Components\TextEntry::make('created_at')
                             ->dateTime(),
-                        
+
                         Infolists\Components\TextEntry::make('updated_at')
                             ->dateTime(),
                     ])
@@ -62,5 +62,3 @@ class ViewBook extends ViewRecord
             ]);
     }
 }
-
-
